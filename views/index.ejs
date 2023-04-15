@@ -1,0 +1,109 @@
+<%- include('template/head.ejs') %>
+
+<%- include('template/navbar.ejs') %>
+
+<%- include('template/sidebar.ejs') %>
+
+<!-- Main Content -->
+<main class="col-md-9 px-md-4 main">
+    <div><b>Cars > </b>List Car</div>
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
+        <h3>List Car</h3>
+        <div class="btn-add-car mb-2 mb-md-0">
+            <a href="/add" class="btn text-light fw-bold"><i class="bi bi-plus"></i>
+                Add New
+                Car</a>
+        </div>
+    </div>
+    <div class="d-inline">
+        <a href="/" class="btn btn-light btn-outline-primary">
+            All
+        </a>
+        <a href="/?filter=small" class="btn btn-light btn-outline-primary">
+            Small
+        </a>
+        <a href="/?filter=medium" class="btn btn-light btn-outline-primary">
+            Medium
+        </a>
+        <a href="/?filter=large" class="btn btn-light btn-outline-primary">
+            Large
+        </a>
+    </div>
+    <div class="row">
+        <% for(var i=0; i<cars.length; i++) { %>
+        <div class="col-lg-4">
+            <div class="card mt-5 mb-2" style="width: 18rem; ">
+                <img src="/images/<%=cars[i].gambar %>" height="200px" alt="">
+                <div class="card-body">
+                    <p class="card-text">
+                        <%= cars[i].nama_mobil %> / <%= cars[i].ukuran %>
+                    </p>
+                    <h5 class="card-title">
+                        <%= accounting.formatMoney(cars[i].harga_perhari, "Rp. " , 2, "." , "," ) %>
+                    </h5>
+                    <p class="card-text">
+                        <i class="bi bi-clock"></i>
+                        Updated At <%= dayjs(Date(cars[i].updatedAt)).format('DD MM YYYY, HH:mm') %>
+                    </p>
+                    <a href="/delete/<%= cars[i].id %>" id="deleteBtn" data-confirm="Menghapus Data Mobil"
+                        class="btn btn-outline-danger ms-4"><i class="bi bi-trash"></i>
+                        Delete</a>
+                    <a href="/editCar/<%= cars[i].id %>/edit" class="btn btn-success ms-2"><i
+                            class="bi bi-pencil-square"></i> Edit</a>
+                </div>
+            </div>
+        </div>
+        <% } %>
+    </div>
+</main>
+
+<!-- SWEET ALERT -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    const deleteBtn = document.getElementById('deleteBtn');
+
+    const deleteLinks = document.querySelectorAll('a[data-confirm]')
+    deleteLinks.forEach(link => {
+        link.addEventListener('click', (event) => {
+            event.preventDefault()
+
+            // tampilkan SweetAlert2 untuk konfirmasi
+            Swal.fire({
+                title: link.getAttribute('data-confirm'),
+                imageUrl: './public/images/swal.png',
+                imageWidth: 400,
+                imageHeight: 200,
+                text: 'Setelah dihapus, data mobil tidak dapat dikembalikan. Yakin ingin menghapus?',
+                showCancelButton: true,
+                confirmButtonColor: '#0D28A6',
+                cancelButtonColor: '#d33',
+                cancelButtonText: 'Tidak',
+                confirmButtonText: 'Ya'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire(
+                        'Deleted!',
+                        'Data Berhasil Dihapus',
+                        'success'
+                    ).then(() => {
+                        window.location.href = link.getAttribute('href')
+                    })
+                }
+            })
+        })
+    })
+
+    let urlParams = new URLSearchParams(window.location.search)
+    if (urlParams.has('success') && urlParams.get('success')) {
+        Swal.fire({
+            icon: 'success',
+            title: 'Data Berhasil Diedit',
+            showConfirmButton: false,
+            timer: 1500
+        }).then(() => {
+            window.location.replace(window.location.origin + '/')
+        })
+    }
+</script>
+
+<%- include('template/footer.ejs') %>

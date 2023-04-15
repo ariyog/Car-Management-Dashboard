@@ -1,0 +1,9 @@
+{
+  "development": {
+    "username": "postgres",
+    "password": "ariyogi",
+    "database": "db_car_ari",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  }
+}

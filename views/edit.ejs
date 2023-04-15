@@ -1,0 +1,51 @@
+<%- include('template/head.ejs') %>
+
+<%- include('template/navbar.ejs') %>
+
+<%- include('template/sidebar.ejs') %>
+<!-- Main Content -->
+<main class="col-md-9 px-md-4 main">
+    <div><b>Cars > <a href="/" class="nav-link d-inline">List Car</a> > </b>Update Car Information</div>
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
+        <h3>Update Car Information</h3>
+    </div>
+    <form action="/editCar/<%= car.id %>" method="post" enctype="multipart/form-data" style="background: #ffffff"
+        class="p-4 mb-5">
+        <div class="mb-3 row">
+            <label for="nama" class="col-sm-2 col-form-label">Nama <span class="text-danger">*</span></label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="nama" id="nama" value="<%= car.nama_mobil %>">
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <label for="sewa" class="col-sm-2 col-form-label">Sewa Per Hari <span class="text-danger">*</span></label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="sewa" id="sewa" value="<%= car.harga_perhari %>">
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <label for="ukuran" class="col-sm-2 col-form-label">Ukuran <span class="text-danger">*</span></label>
+            <div class="col-sm-10">
+                <select name="ukuran" class="form-select" id="ukuran">
+                    <option value="small" <%=car.ukuran==='small' ? 'selected' : '' %>>Small</option>
+                    <option value="medium" <%=car.ukuran==='medium' ? 'selected' : '' %>>Medium</option>
+                    <option value="large" <%=car.ukuran==='large' ? 'selected' : '' %>>Large</option>
+                </select>
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <label for="gambar" class="col-sm-2 col-form-label">Foto <span class="text-danger">*</span></label>
+            <div class="col-sm-10">
+                <input type="file" class="form-control" value="<%= car.gambar %>" name="gambar" id="gambar">
+            </div>
+        </div>
+        <a href=""></a>
+        <button class="btn btn-outline-primary d-inline" type="reset" style="margin-top: 10rem;"><a href="/"
+                class="text-decoration-none">Cancel</a></button>
+        <button class="btn btn-primary d-inline" style="margin-top: 10rem;">Save</button>
+    </form>
+</main>
+</div>
+</div>
+
+<%- include('template/footer.ejs') %>
